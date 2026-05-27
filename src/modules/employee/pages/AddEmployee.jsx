@@ -4,7 +4,9 @@ import {useFormik} from "formik";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input.jsx";
 import { useDispatch } from "react-redux";
-import { addEmployee } from "../../../store/Slice.jsx";
+//import { addEmployee } from "../../../store/Slice.jsx";
+import { useCallback } from "react";
+import { addEmployeeAction } from "../store/actions";
 const AddEmployee=()=>{
     const navigate= useNavigate();
     const dispatch=useDispatch();
@@ -27,19 +29,19 @@ const AddEmployee=()=>{
             return errors;
         },
         onSubmit:(values)=>{
-            dispatch(addEmployee(values));
+            dispatch(addEmployeeAction(values));
             navigate("/employees");
         },
     });
 
-    const handleFileChange=(event)=>{
-        const file=event.currentTarget.files[0];
-        if(file){
-            const localPath=URL.createObjectURL(file);
-            formik.setFieldValue("filePath",localPath);
-            formik.setFieldValue("fileName",file.name);
+    const handleFileChange = useCallback((event) => {
+        const file = event.currentTarget.files[0];
+        if (file) {
+            const localPath = URL.createObjectURL(file);
+           formik.setFieldValue("filePath",localPath);
+           formik.setFieldValue("fileName",file.name);
         }
-    }
+    }, [formik]);
 
     return(
         <div className="container mt-4">

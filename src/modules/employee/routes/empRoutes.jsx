@@ -1,6 +1,6 @@
-import AddEmployee from "./pages/AddEmployee";
-import EmployeeDetails from "./pages/EmployeeDetails";
-import EmployeeList from "./pages/EmployeeList";
+import AddEmployee from "../pages/AddEmployee";
+import EmployeeDetails from "../pages/EmployeeDetails";
+import EmployeeList from "../pages/EmployeeList";
 
 const empRoutes=[
     {

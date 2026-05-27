@@ -1,31 +1,42 @@
 import { useDispatch, useSelector } from "react-redux";
 //import { useAuth } from "../../../context/Context"
 import ListItem from "../components/ListItem";
-import { fetchEmployeesThunk } from "../../../store/Slice";
+//import { fetchEmployeesThunk } from "../../../store/Slice";
+import { fetchEmployeesThunk, deleteEmployeeAction } from "../store/actions";
 import { useEffect } from "react";
 
-const EmployeeList=()=>{
-    //const {employees}=useAuth();
-    const dispatch=useDispatch();
-    const {employees,loading,isFetched}=useSelector((state)=>state.system);
-    useEffect(()=>{
-        if(!isFetched){
-            dispatch(fetchEmployeesThunk());
-        }
-    },[dispatch,isFetched]);
-
-    if(loading&& employees.length===0){
-        return <div className="text-center mt-5"><div className="spinner-border"></div></div>
+const EmployeeList = () => {
+  const dispatch = useDispatch();
+  const { employees, loading, isFetched } = useSelector((state) => state.employee );
+ 
+  useEffect(() => {
+    if (!isFetched) {
+      dispatch(fetchEmployeesThunk());
     }
-    return(
-        <div className="container mt-4">
-            <div className="row">
-                {employees.map(emp=>(
-                    <ListItem key={emp.id} employee={emp}/>
-                ))}
-            </div>
+  }, [dispatch, isFetched]);
+ 
+  if (loading && (!employees || employees.length === 0)) {
+    return (
+      <div className="text-center mt-5">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading employees...</span>
         </div>
-
+      </div>
     );
-}
+  }
+ 
+  return (
+    <div className="container mt-4">
+      <h2 className="mb-4">Employee Directory ({employees?.length || 0})</h2>
+      <div className="row">
+        {employees && employees.map((emp) => (
+          <ListItem key={emp.id} employee={emp}
+            onDelete={(id) => dispatch(deleteEmployeeAction(id))}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+ 
 export default EmployeeList;

@@ -1,8 +1,8 @@
 import { Routes,Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
-import authRoutes from "../modules/auth/authRoutes";
-import dashboardRoutes from "../modules/dashboard/dashboardRoutes";
-import empRoutes from "../modules/employee/empRoutes";
+import authRoutes from "../modules/auth/routes/authRoutes";
+import dashboardRoutes from "../modules/dashboard/routes/dashboardRoutes";
+import empRoutes from "../modules/employee/routes/empRoutes";
 const AppRoutes=()=>{
     return(
         <Routes>

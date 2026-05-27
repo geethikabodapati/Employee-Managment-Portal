@@ -3,15 +3,24 @@ import { useNavigate } from "react-router-dom";
 import {useFormik} from "formik";
 import Input from "../../../components/Input.jsx"
 import Button from "../../../components/Button.jsx"
-import { useDispatch } from "react-redux";
-import {login} from "../../../store/Slice"
+import { useAuth } from "../hooks/useAuth.jsx";
+import { useEffect } from "react";
+//import { useDispatch } from "react-redux";
+//import {login} from "../../../store/Slice"
 
 const Login=()=>{
     //const{login}=useAuth();
-    const dispatch=useDispatch();
+    const { login, isLoggedIn, error } = useAuth(); 
+    //const dispatch=useDispatch();
     const navigate= useNavigate();
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z]+\.[A-Z]{2,4}$/i;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{4,}$/;
+    useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, [isLoggedIn, navigate]);
+ 
     const formik=useFormik({
         initialValues:{email:"",password:""},
         validate: (values) => {
@@ -29,9 +38,10 @@ const Login=()=>{
 
             return errors;
         },
-        onSubmit:()=>{
-            dispatch(login());
-            navigate("/dashboard");
+        onSubmit:(values)=>{
+            //dispatch(login());
+            login(values);
+            //navigate("/dashboard");
         }
     });
     return(

@@ -1,17 +1,19 @@
 import { Link, useNavigate } from "react-router-dom";
 import {useDispatch,useSelector} from "react-redux";
+import { useAuth } from "../modules/auth/hooks/useAuth";
 //import { useAuth } from "../context/Context"
-import {logout} from "../store/Slice";
+//import {logout} from "../store/Slice";
+
 import Button from "./Button";
 
 const Navbar=()=>{
-    const dispatch=useDispatch();
-    //const {isLoggedIn,logout}=useAuth();
-    const isLoggedIn=useSelector((state)=>state.system.isLoggedIn);
+    //const dispatch=useDispatch();
+    const {isLoggedIn,logout}=useAuth();
+    //const isLoggedIn=useSelector((state)=>state.system.isLoggedIn);
     const navigate=useNavigate();
     const handleLogout=()=>{
-        //logout();
-        dispatch(logout());
+        logout();
+        //dispatch(logout());
         navigate("/login");
     };
     // if(!isLoggedIn){
@@ -28,7 +30,10 @@ const Navbar=()=>{
             
                 <Button type="submit" variant="danger" onClick={handleLogout} label="LogOut"/></>
             ):(
-                <Link to="/login" className="btn btn-outline-light btn-sm px-3">Login</Link>
+                <div className="ms-auto d-flex align-items-right gap-3">
+                <Link to="/login" className="btn btn-outline-light btn-sm px-3 ">Login</Link>
+                <Link to="/signup" className="btn btn-outline-light btn-sm px-3">SignUp</Link>
+                </div>
             )}
             
         </div>
